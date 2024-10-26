@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Verification and Generation | AJK-unbeat-site</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <section id="loginPage" class="page active" >
+        <h1>Login</h1>
+        <label for="userType">Select User Type</label>
+        <select id="userType">
+            <option value="student">Student</option>
+            <option value="mentor">Mentor</option>
+        </select>
+        <div class="login-form">
+            <input type="text" id="loginUsername" placeholder="Username" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button onclick="login()">Login</button>
+            <button id="registerButton" onclick="navigateTo('registrationPage')">Register</button>
+        </div>
+        <button class="forgot-password" onclick="navigateTo('forgotPasswordPage')">Forgot Password?</button>
+    </section>
+
+    <!-- Registration Page -->
+    <section id="registrationPage" class="page" >
+        <h1>Register</h1>
+        <form class="registration-form">
+            <label for="regName">Name</label>
+            <input type="text" id="regName" placeholder="Name" required>
+
+            <label for="institution">Institution</label>
+            <input type="text" id="institution" placeholder="Institution" required>
+
+            <label>Register as:</label>
+            <label><input type="radio" name="userRole" value="student" checked> Student</label>
+            <label><input type="radio" name="userRole" value="mentor"> Mentor</label>
+
+            <input type="text" placeholder="Username" required>
+            <div class="password-container">
+                <input type="password" placeholder="Password" id="regPassword" required>
+                <span onclick="togglePasswordVisibility('regPassword')" class="eye-symbol">👁</span>
+            </div>
+            <div class="password-container">
+                <input type="password" placeholder="Confirm Password" id="confirmPassword" required>
+                <span onclick="togglePasswordVisibility('confirmPassword')" class="eye-symbol">👁</span>
+            </div>
+            <label for="securityQuestion">Security Question</label>
+            <input type="text" id="securityQuestion" placeholder="Enter your security question answer" required>
+            <button type="submit" onclick="register()">Register</button>
+        </form>
+        <button class="back" onclick="navigateTo('loginPage')">&#8592; Back to Login</button>
+    </section>
+
+    <!-- Forgot Password Page -->
+    <section id="forgotPasswordPage" class="page">
+        <h2>Forgot Password</h2>
+        <label for="forgotUsername">Username</label>
+        <input type="text" id="forgotUsername" placeholder="Enter your username" required>
+        <label for="securityAnswer">Answer Security Question</label>
+        <input type="text" id="securityAnswer" placeholder="Your answer here" required>
+        <button onclick="recoverPassword()">Submit</button>
+        <button class="back" onclick="navigateTo('loginPage')">Back to Login</button>
+    </section>
+
+    <!-- Student Certificate Verification Page -->
+    <section id="studentPage" class="page">
+        <h1>Certificate Verification</h1>
+        <input type="text" id="certificateId" placeholder="Enter Certificate ID here">
+        <button onclick="verifyCertificate()">Verify</button>
+        <button class="back" onclick="navigateTo('loginPage')">&#8592; Back</button>
+    </section>
+
+    <!-- Mentor Certificate Generation Page -->
+    <section id="mentorPage" class="page">
+        <h1>Certificate Generation</h1>
+        <input type="file" id="fileUpload" required>
+        <button onclick="generateCertificates()">Generate</button>
+        <button class="back" onclick="navigateTo('loginPage')">&#8592; Back</button>
+    </section>
+
+    <!-- Success Confirmation Page -->
+    <section id="successPage" class="page">
+        <h1>Operation Successful</h1>
+        <p>The certificate has been successfully generated or verified!</p>
+        <button onclick="navigateTo('loginPage')">Return to Login</button>
+    </section>
+
+    <script>
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function togglePasswordVisibility(passwordId) {
+            const passwordField = document.getElementById(passwordId);
+            passwordField.type = passwordField.type === "password" ? "text" : "password";
+        }
+
+        function login() {
+            const userType = document.getElementById("userType").value;
+            if (userType === "student") {
+                navigateTo("studentPage");
+            } else if (userType === "mentor") {
+                navigateTo("mentorPage");
+            } else {
+                alert("Please select a valid user type.");
+            }
+        }
+
+        function register() {
+            alert("Registration successful!");
+        }
+
+        function recoverPassword() {
+            const username = document.getElementById("forgotUsername").value;
+            const answer = document.getElementById("securityAnswer").value;
+            if (username && answer) {
+                alert("Password recovery successful!");
+                navigateTo('loginPage');
+            } else {
+                alert("Please provide both username and security question answer.");
+            }
+        }
+
+        function verifyCertificate() {
+            const certificateId = document.getElementById("certificateId").value;
+            if (certificateId) {
+                alert("Verification Successful");
+                navigateTo("successPage");
+            } else {
+                alert("Please enter a certificate ID");
+            }
+        }
+
+        function generateCertificates() {
+            const fileUpload = document.getElementById("fileUpload").value;
+            if (fileUpload) {
+                alert("Certificates Generated Successfully");
+                navigateTo("successPage");
+            } else {
+                alert("Please upload a file");
+            }
+        }
+    </script>
+</body>
+</html>
